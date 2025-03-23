@@ -5,7 +5,7 @@ import { router } from './routes/index.js';
 const server = createServer(router);
 
 db.initialize().then(() => {
-    server.listen(3000, () => {
+    server.listen(4444, () => {
         console.log('Server started');
     });
 });
