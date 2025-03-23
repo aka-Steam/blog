@@ -18,7 +18,7 @@ export const register = async (req, res) => {
 
 		const token = jwt.sign(
 			{
-				id: user.id,
+				_id: user._id,
 			},
 			'secret123',
 			{
@@ -60,7 +60,7 @@ export const login = async (req, res) => {
 
 		const token = jwt.sign(
 			{
-				id: user.id,
+				_id: user._id,
 			},
 			'secret123',
 			{
