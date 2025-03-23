@@ -37,6 +37,14 @@ export const AddPost = () => {
     }
   };
 
+  const parseTags = (input) => {
+    // Удаляем все символы # и разделяем строку по пробелам или запятым
+    return input
+      .split(/[\s,]+/)
+      .map(tag => tag.replace(/^#/, ''))
+      .filter(tag => tag.trim() !== '');
+  }
+
   const onClickRemoveImage = () => {
     setImageUrl('');
   };
@@ -52,7 +60,7 @@ export const AddPost = () => {
       const fields = {
         title,
         imageUrl,
-        tags,
+        tags: parseTags(tags),
         text,
       };
 
@@ -60,8 +68,7 @@ export const AddPost = () => {
         ? await axios.patch(`/posts/${id}`, fields)
         : await axios.post('/posts', fields);
 
-      const _id = isEditing ? id : data._id;
-
+      const _id = isEditing ? id : data.id;
       navigate(`/posts/${_id}`);
     } catch (err) {
       console.warn(err);
