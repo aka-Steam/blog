@@ -42,7 +42,7 @@ export const getOne = async (req, res) => {
         const postId = req.params.id;
 
         const post = await Post.findByPk(postId, {
-            include: [{ model: User, as: 'user', attributes: ['_id', 'fullName', 'email'] }],
+            include: [{ model: User, as: 'user', attributes: ['id', 'fullName', 'email'] }],
         });
 
         if (!post) {
