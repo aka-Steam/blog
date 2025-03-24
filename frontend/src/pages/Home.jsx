@@ -24,6 +24,7 @@ export const Home = () => {
 
   return (
     <>
+      <TagsBlock items={tags.items} isLoading={isTagsLoading} />
       <Tabs style={{ marginBottom: 15 }} value={0} aria-label="basic tabs example">
         <Tab label="Новые" />
         <Tab label="Популярные" />
@@ -49,7 +50,6 @@ export const Home = () => {
           )}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
             items={[
               {

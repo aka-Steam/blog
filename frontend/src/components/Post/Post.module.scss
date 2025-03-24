@@ -1,4 +1,4 @@
-$blue: #4361ee;
+$backlightColor: #990399;
 
 .root {
   background-color: #fff;
@@ -9,8 +9,8 @@ $blue: #4361ee;
   position: relative;
 
   &:hover {
-    border: 1px solid $blue;
-    box-shadow: 0 0 0 1px $blue;
+    border: 1px solid $backlightColor;
+    box-shadow: 0 0 0 1px $backlightColor;
 
     .editButtons {
       opacity: 1;
@@ -63,7 +63,7 @@ $blue: #4361ee;
     color: #000;
 
     &:hover {
-      color: $blue;
+      color: $backlightColor;
     }
   }
 

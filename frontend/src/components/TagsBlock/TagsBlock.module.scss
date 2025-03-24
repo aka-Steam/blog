@@ -1,0 +1,15 @@
+.tag {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    background-color: #fff;
+    border-radius: 0.875rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+
+    &:hover{
+        box-shadow: 0 0 0 1px #990399;
+    }
+}
