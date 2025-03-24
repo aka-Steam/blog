@@ -25,7 +25,7 @@ export const getLastTags = async (req, res) => {
 export const getAll = async (req, res) => {
     try {
         const posts = await Post.findAll({
-            include: [{ model: User, as: 'user', attributes: ['_id', 'fullName', 'email'] }],
+            include: [{ model: User, as: 'user', attributes: ['id', 'fullName', 'email'] }],
             order: [['createdAt', 'DESC']],
         });
         res.json(posts);
