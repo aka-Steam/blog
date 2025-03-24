@@ -35,7 +35,7 @@ export const Home = () => {
               <Post key={index} isLoading={true} />
             ) : (
               <Post
-                id={obj._id}
+                id={obj.id}
                 title={obj.title}
                 imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
                 user={obj.user}
@@ -43,7 +43,7 @@ export const Home = () => {
                 viewsCount={obj.viewsCount}
                 commentsCount={3}
                 tags={obj.tags}
-                isEditable={userData?._id === obj.user._id}
+                isEditable={userData?.id === obj.user.id}
               />
             ),
           )}
