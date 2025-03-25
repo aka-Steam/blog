@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Skeleton, Stack } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import TagIcon from "@mui/icons-material/Tag";
 import styles from "./TagsBlock.module.scss";
 
@@ -15,14 +15,26 @@ export const TagsBlock = ({ items, isLoading = true }) => {
         }}
       >
         {(isLoading ? [...Array(5)] : items).map((name, i) => (
-          <a
-            key={i}
-            href={isLoading ? "#" : `/tags/${name}`}
-            className={styles.tag}
-          >
-            <TagIcon fontSize="small" sx={{ marginRight: 0.5 }} />
-            {isLoading ? <Skeleton width={50} /> : name}
-          </a>
+          isLoading ? (
+            <button
+              key={i}
+              className={styles.tag}
+              style={{ display: 'flex', alignItems: 'center', border: 'none', background: 'none', cursor: 'default' }}
+              disabled
+            >
+              <TagIcon fontSize="small" sx={{ marginRight: 0.5 }} />
+              <Skeleton width={50} />
+            </button>
+          ) : (
+            <a
+              key={i}
+              href={`/tags/${name}`}
+              className={styles.tag}
+            >
+              <TagIcon fontSize="small" sx={{ marginRight: 0.5 }} />
+              {name}
+            </a>
+          )
         ))}
       </Box>
     </div>

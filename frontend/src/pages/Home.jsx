@@ -14,13 +14,13 @@ export const Home = () => {
   const userData = useSelector((state) => state.auth.data);
   const { posts, tags } = useSelector((state) => state.posts);
 
-  const isPostsLoading = (posts.status === 'loading')||(posts.status === 'error');
+  const isPostsLoading = (posts.status === 'loading') || (posts.status === 'error');
   const isTagsLoading = tags.status === 'loading';
 
   React.useEffect(() => {
     dispatch(fetchPosts());
     dispatch(fetchTags());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
