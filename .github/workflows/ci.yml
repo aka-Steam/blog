@@ -19,6 +19,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: backend/package-lock.json
 
+      - name: Create backend .env file
+        run: |
+          echo "DB_USER=${{ secrets.DB_USER }}" >> backend/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> backend/.env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> backend/.env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> backend/.env
+
       - name: Install dependencies (Backend)
         working-directory: backend
         run: npm install
@@ -30,6 +37,10 @@ jobs:
           node-version: 18
           cache: 'npm'
           cache-dependency-path: frontend/package-lock.json
+      
+      - name: Create frontend .env file
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> frontend/.env
 
       - name: Install dependencies (Frontend)
         working-directory: frontend
