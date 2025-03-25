@@ -19,22 +19,6 @@ jobs:
           cache: 'npm'
           cache-dependency-path: backend/package-lock.json
 
-      - name: Create backend .env file
-        run: |
-          echo "DB_USER=${{ secrets.DB_USER }}" >> backend/.env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> backend/.env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> backend/.env
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> backend/.env
-
-      - name: Output .env file content (Backend)
-        run: |
-          echo "Checking .env file content without secrets"
-          cat backend/.env
-
-      - name: Check DB connection
-        run: |
-          nc -zv ${{ secrets.DB_HOST }} 5432
-
       - name: Install dependencies (Backend)
         working-directory: backend
         run: npm install
@@ -83,6 +67,11 @@ jobs:
       - name: Run Backend Tests
         working-directory: backend
         run: npm test
+        env:
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
 
       # ---------- Frontend ----------
       - name: Setup Node.js for Frontend
