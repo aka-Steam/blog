@@ -1,11 +1,3 @@
-import * as db from './db.js';
-import { createServer } from './server.js';
-import { router } from './routes/index.js';
+import { initServer } from "./server"
 
-const server = createServer(router);
-
-db.initialize().then(() => {
-    server.listen(4444, () => {
-        console.log('Server started');
-    });
-});
+initServer(4444)

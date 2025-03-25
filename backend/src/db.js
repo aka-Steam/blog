@@ -13,11 +13,14 @@ const sequelize = new Sequelize('blog', process.env.DB_USER, process.env.DB_PASS
 const initialize = async () => {
     try {
         await sequelize.authenticate();
-        await sequelize.sync({ alter: true });
-        console.log('All models were synchronized successfully.');
+        await sequelize.sync();
     } catch (error) {
         console.error(`Error initializing database: ${error}`);
     }
 }
 
-export { sequelize, initialize };
+const close = async () => {
+    return sequelize.close();
+}
+
+export { sequelize, initialize, close };
