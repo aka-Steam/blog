@@ -31,6 +31,10 @@ jobs:
           echo "Checking .env file content without secrets"
           cat backend/.env
 
+      - name: Check DB connection
+        run: |
+          nc -zv ${{ secrets.DB_HOST }} 5432
+
       - name: Install dependencies (Backend)
         working-directory: backend
         run: npm install

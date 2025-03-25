@@ -30,8 +30,5 @@ User.init(
     },
 );
 
-// Проверка, что модель создана правильно
-console.log(User === sequelize.models.User); // true
 
-// Экспортируем модель
 export default User;
