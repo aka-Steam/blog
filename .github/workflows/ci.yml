@@ -29,7 +29,7 @@ jobs:
       - name: Output .env file content (Backend)
         run: |
           echo "Checking .env file content without secrets"
-          cat backend/.env | - grp -v 'DB_PASSWORD'
+          cat backend/.env | grep -v 'DB_PASSWORD'
 
       - name: Install dependencies (Backend)
         working-directory: backend
