@@ -16,10 +16,6 @@ const sequelize = new Sequelize('blog', process.env.DB_USER, process.env.DB_PASS
 });
 
 const initialize = async () => {
-
-    console.log('DB_USER:', process.env.DB_USER);
-    console.log('DB_PORT:', process.env.DB_PORT);
-
     try {
         let retries = 5;
         while (retries) {

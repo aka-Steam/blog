@@ -58,9 +58,6 @@ export const login = async (req, res) => {
 			});
 		}
 
-		// console.log(user)
-		// console.log(user.dataValues)
-
 		const token = jwt.sign(
 			{
 				_id: user.dataValues.id,
