@@ -55,13 +55,13 @@ export const Post = ({
           </IconButton>
         </div>
       )}
-      {imageUrl && (
+      {/* {imageUrl && (
         <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
           src={imageUrl}
           alt={title}
         />
-      )}
+      )} */}
       <div className={styles.wrapper}>
         <UserInfo {...user} additionalText={createdAt} />
         <div className={styles.indention}>

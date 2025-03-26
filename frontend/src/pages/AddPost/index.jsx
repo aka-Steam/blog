@@ -114,11 +114,11 @@ export const AddPost = () => {
 
   return (
     <Paper style={{ padding: 30 }}>
-      <Button onClick={() => inputFileRef.current.click()} variant="outlined" size="large">
+      {/* <Button onClick={() => inputFileRef.current.click()} variant="outlined" size="large">
         Загрузить превью
-      </Button>
-      <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden />
-      {imageUrl && (
+      </Button> */}
+      {/* <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden /> */}
+      {/* {imageUrl && (
         <>
           <Button variant="contained" color="error" onClick={onClickRemoveImage}>
             Удалить
@@ -129,7 +129,7 @@ export const AddPost = () => {
             alt="Uploaded"
           />
         </>
-      )}
+      )} */}
       <br />
       <br />
       <TextField
