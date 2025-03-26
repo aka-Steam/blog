@@ -20,22 +20,22 @@ export const AddPost = () => {
   const [title, setTitle] = React.useState('');
   const [tags, setTags] = React.useState('');
   const [imageUrl, setImageUrl] = React.useState('');
-  const inputFileRef = React.useRef(null);
+  // const inputFileRef = React.useRef(null);
 
   const isEditing = Boolean(id);
 
-  const handleChangeFile = async (event) => {
-    try {
-      const formData = new FormData();
-      const file = event.target.files[0];
-      formData.append('image', file);
-      const { data } = await axios.post('/upload', formData);
-      setImageUrl(data.url);
-    } catch (err) {
-      console.warn(err);
-      alert('Ошибка при загрузке файла!');
-    }
-  };
+  // const handleChangeFile = async (event) => {
+  //   try {
+  //     const formData = new FormData();
+  //     const file = event.target.files[0];
+  //     formData.append('image', file);
+  //     const { data } = await axios.post('/upload', formData);
+  //     setImageUrl(data.url);
+  //   } catch (err) {
+  //     console.warn(err);
+  //     alert('Ошибка при загрузке файла!');
+  //   }
+  // };
 
   const parseTags = (input) => {
     // Удаляем все символы # и разделяем строку по пробелам или запятым
@@ -45,9 +45,9 @@ export const AddPost = () => {
       .filter(tag => tag.trim() !== '');
   }
 
-  const onClickRemoveImage = () => {
-    setImageUrl('');
-  };
+  // const onClickRemoveImage = () => {
+  //   setImageUrl('');
+  // };
 
   const onChange = React.useCallback((value) => {
     setText(value);
