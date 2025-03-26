@@ -11,9 +11,12 @@ export const fetchTags = createAsyncThunk('posts/fetchTags', async () => {
   return data;
 });
 
-export const fetchRemovePost = createAsyncThunk("posts/fetchRemovePost", async (id) => {
-    axios.delete(`/posts/${id}`);
-    fetchPosts();
+// export const fetchRemovePost = createAsyncThunk("posts/fetchRemovePost", async (id) => axios.delete(`/posts/${id}`));
+export const fetchRemovePost = createAsyncThunk(
+  "posts/fetchRemovePost", 
+  async (id) => {
+    await axios.delete(`/posts/${id}`); // Отправляем запрос, но не возвращаем весь response
+    return id; // Возвращаем только id удалённого поста
   }
 );
 
@@ -62,8 +65,8 @@ const postsSlice = createSlice({
     },
 
     // Удаление статьи
-    [fetchRemovePost.pending]: (state, action) => {
-      state.posts.items = state.posts.items.filter((obj) => obj._id !== action.meta.arg);
+    [fetchRemovePost.fulfilled]: (state, action) => {
+      state.posts.items = state.posts.items.filter((obj) => obj._id !== action.payload);
     },
   },
 });
