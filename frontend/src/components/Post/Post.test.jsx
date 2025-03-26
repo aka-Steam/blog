@@ -42,7 +42,10 @@ describe('Post Component', () => {
     window.confirm = jest.fn(() => true);
     
     // Мокируем fetchRemovePost перед каждым тестом
-    mockFetchRemovePost = jest.fn(() => ({ type: 'posts/removePost' }));
+    mockFetchRemovePost = jest.fn(() => ({
+      type: "posts/removePost",
+      unwrap: jest.fn(() => Promise.resolve()),
+    }));
     jest.spyOn(postsApi, 'fetchRemovePost').mockImplementation(mockFetchRemovePost);
   });
 
