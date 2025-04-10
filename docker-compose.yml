@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: artisteam/cool-stories-blog_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  backend:
+    image: artisteam/cool-stories-blog_backend
+    ports:
+      - "4444:4444"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+networks:
+  default:
+    driver: bridge
