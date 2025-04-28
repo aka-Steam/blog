@@ -11,7 +11,7 @@ services:
       - backend
 
   backend:
-    image: artisteam/cool-stories-blog_backend
+    image: swerthk/blog-backend:latest
     ports:
       - "4444:4444"
     environment:
