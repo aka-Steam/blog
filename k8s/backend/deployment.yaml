@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1  # Начальное количество подов
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: swerthk/blog-backend:latest  # Образ из Docker Hub
+        ports:
+        - containerPort: 4444  # Порт бэкенда
+        envFrom:
+        - secretRef:
+            name: backend-secrets  # Секреты из .env
+        resources:
+          requests:
+            cpu: "100m"  # Минимум 0.1 CPU
+          limits:
+            cpu: "500m"  # Максимум 0.5 CPU
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 4444  # Порт сервиса
+      targetPort: 4444  # Порт контейнера
+  type: ClusterIP  # Внутренний сервис (не доступен извне)
+  # type: LoadBalancer 
