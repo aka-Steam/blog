@@ -10,8 +10,4 @@ COPY . .
 
 EXPOSE 4444
 
-<<<<<<< Updated upstream
 CMD ["npm", "run", "start"]
-=======
-CMD ["npm", "run", "start"]
->>>>>>> Stashed changes
