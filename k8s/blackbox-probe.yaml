@@ -6,10 +6,9 @@ metadata:
 spec:
   jobName: backend-http
   prober:
-    url: blackbox-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+    url: blackbox-prometheus-blackbox-exporter.monitoring.svc:9115
   targets:
     staticConfig:
       static:
-      - http://backend-service.default.svc.cluster.local:4444/health
       - http://backend-service.default.svc:4444/api/posts
   interval: 30s
