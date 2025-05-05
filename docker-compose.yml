@@ -2,21 +2,49 @@ version: '3.8'
 
 services:
   frontend:
+<<<<<<< Updated upstream
     image: artisteam/cool-stories-blog_frontend
+=======
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+>>>>>>> Stashed changes
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+<<<<<<< Updated upstream
+=======
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+>>>>>>> Stashed changes
     depends_on:
       - backend
 
   backend:
+<<<<<<< Updated upstream
     image: swerthk/blog-backend:latest
+=======
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+>>>>>>> Stashed changes
     ports:
       - "4444:4444"
     environment:
       - NODE_ENV=development
+<<<<<<< Updated upstream
 
 networks:
   default:
     driver: bridge
+=======
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+networks:
+  default:
+    driver: bridge
+>>>>>>> Stashed changes
