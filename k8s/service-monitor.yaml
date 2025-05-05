@@ -1,0 +1,11 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: backend-monitor
+spec:
+  selector:
+    matchLabels:
+      app: backend  # Метки сервиса бэкенда
+  endpoints:
+  - port: http  # Порт сервиса
+    interval: 10s

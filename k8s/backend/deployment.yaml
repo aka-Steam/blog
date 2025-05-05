@@ -11,6 +11,9 @@ spec:
     metadata:
       labels:
         app: backend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "4444"
     spec:
       containers:
       - name: backend

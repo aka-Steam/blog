@@ -11,10 +11,13 @@ spec:
     metadata:
       labels:
         app: frontend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
     spec:
       containers:
       - name: frontend
-        image: artisteam/cool-stories-blog_frontend:latest
+        image: swerthk/blog-frontend:latest
         ports:
         - containerPort: 3000
         env:
@@ -23,8 +26,10 @@ spec:
         resources:
           requests:
             cpu: "100m"
+            memory: "512Mi"
           limits:
             cpu: "300m"
+            memory: "1Gi" 
 ---
 apiVersion: v1
 kind: Service
