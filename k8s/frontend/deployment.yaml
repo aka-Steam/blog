@@ -42,4 +42,4 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 3000
-  type: LoadBalancer  # Внешний IP для доступа из браузера
+  type: ClusterIP  # Внешний IP для доступа из браузера 
