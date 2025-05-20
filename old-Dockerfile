@@ -1,0 +1,49 @@
+FROM node:18.0.0-alpine AS frontend-build
+
+WORKDIR /app
+
+# Копируем package.json и устанавливаем зависимости
+COPY frontend/package*.json ./
+RUN npm install
+
+# Копируем исходные файлы фронтенда
+COPY frontend/ .
+
+# Выполняем сборку React-приложения
+RUN npm run build
+
+# Этап 2: Настройка веб-сервера (Nginx)
+FROM nginx:latest AS frontend-server
+
+# Копируем собранные файлы из предыдущего этапа
+COPY --from=frontend-build /app/build /usr/share/nginx/html
+
+# Этап 3: Настройка бэкенда (Node.js)
+FROM node:18.0.0-alpine AS backend
+
+WORKDIR /app
+
+# Копируем package.json и устанавливаем зависимости для бэкенда
+COPY backend/package*.json ./
+RUN npm install
+
+# Копируем исходные файлы бэкенда
+COPY backend/ .
+
+# Экспонируем порт для бэкенда (например, 5000)
+EXPOSE 5000
+
+# Запускаем сервер Node.js
+CMD ["npm", "start"]
+
+# Этап 4: Финальная сборка контейнера
+FROM nginx:latest
+
+# Копируем фронтенд в контейнер
+COPY --from=frontend-server /usr/share/nginx/html /usr/share/nginx/html
+
+# Копируем бэкенд
+COPY --from=backend /app /app
+
+# Запускаем одновременно Nginx и сервер Node.js
+CMD ["sh", "-c", "npm start --prefix /app && nginx -g 'daemon off;'"]
