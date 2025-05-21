@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { MemoryRouter } from 'react-router-dom';
 import { Header } from './index.jsx';
-import { authReducer } from '../../redux/slices/auth'; // Измененный импорт
+import { authReducer } from '../../redux/slices/auth.js'; // Измененный импорт
 
 // Мок для модуля с подтверждением
 window.confirm = jest.fn(() => true);
