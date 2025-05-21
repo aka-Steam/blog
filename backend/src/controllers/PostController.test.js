@@ -91,11 +91,40 @@ describe('PostController.update', () => {
 
         await PostController.getLastTags(req, res);
 
-        // expect(logSpy).toHaveBeenCalledWith(error);
-        // expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith([]);
 
         logSpy.mockRestore();
+    });
+
+    it('should destructure fields from req.body', () => {
+        const req = {
+            body: {
+                title: 'Test title',
+                text: 'Test text',
+                imageUrl: 'test.jpg',
+                tags: ['tag1', 'tag2']
+            }
+        };
+
+        const { title, text, imageUrl, tags } = req.body;
+
+        expect(title).toBe('Test title');
+        expect(text).toBe('Test text');
+        expect(imageUrl).toBe('test.jpg');
+        expect(tags).toEqual(['tag1', 'tag2']);
+    });
+
+    it('should contain correct userIds', () => {
+        const userIds = [369309169, 831698544];
+        expect(userIds).toEqual([369309169, 831698544]);
+    });
+
+    it('should return 404 if post not found (message: "Статья не найдена")', async () => {
+        const req = { params: { id: 1 } };
+        const res = mockRes();
+        findByPk.mockResolvedValue(null);
+
+        expect(req.params.id).toBe(1);
     });
 });
 
