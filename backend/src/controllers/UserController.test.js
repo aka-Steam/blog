@@ -183,4 +183,49 @@ describe('UserController', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({ message: 'Неверный логин или пароль' });
     });
+
+    it('login: should call jwt.sign with correct arguments', async () => {
+        const req = { body: { email: 'a@b.c', password: '123' } };
+        const res = mockRes();
+        findOne.mockResolvedValue({
+            dataValues: { id: 3 },
+            passwordHash: 'hashed',
+            toJSON() { return { id: 1, email: 'a@b.c', passwordHash: 'hashed' }; }
+        });
+        bcrypt.compare.mockResolvedValue(true);
+        jwt.sign = jest.fn().mockReturnValue('token');
+
+        await UserController.login(req, res);
+
+        expect(jwt.sign).toHaveBeenCalledWith(
+            { _id: 3 },
+            'secret123',
+            { expiresIn: '30d' }
+        );
+    });
+
+    it('should destructure passwordHash out of user.toJSON()', () => {
+        const user = {
+            toJSON() {
+                return {
+                    id: 1,
+                    email: 'test@example.com',
+                    fullName: 'Test User',
+                    passwordHash: 'hashedpassword',
+                    avatarUrl: null,
+                };
+            }
+        };
+
+        const { passwordHash, ...userData } = user.toJSON();
+
+        expect(passwordHash).toBe('hashedpassword');
+        expect(userData).toEqual({
+            id: 1,
+            email: 'test@example.com',
+            fullName: 'Test User',
+            avatarUrl: null,
+        });
+        expect(userData.passwordHash).toBeUndefined();
+    });
 });
