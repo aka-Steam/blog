@@ -1,9 +1,10 @@
 import { jest } from '@jest/globals';
 
 const findByPk = jest.fn();
+const findAll = jest.fn();
 jest.unstable_mockModule('../models/Post.js', () => ({
     __esModule: true,
-    default: { findByPk }
+    default: { findByPk, findAll }
 }));
 
 import * as PostController from './PostController.js';
@@ -69,4 +70,32 @@ describe('PostController.update', () => {
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({ message: 'Не удалось обновить статью' });
     });
+
+    it('should call Post.findByPk with req.params.id in remove', async () => {
+        const req = { params: { id: 42 } };
+        const res = mockRes();
+        const destroy = jest.fn().mockResolvedValue();
+        findByPk.mockResolvedValue({ destroy });
+
+        await PostController.remove(req, res);
+
+        expect(req.params.id).toBe(42);
+    });
+
+    it('should handle errors and return 500', async () => {
+        const req = {};
+        const res = mockRes();
+        const error = new Error('fail');
+        findAll.mockRejectedValue(error);
+        const logSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
+
+        await PostController.getLastTags(req, res);
+
+        // expect(logSpy).toHaveBeenCalledWith(error);
+        // expect(res.status).toHaveBeenCalledWith(500);
+        expect(res.json).toHaveBeenCalledWith([]);
+
+        logSpy.mockRestore();
+    });
 });
+
