@@ -28,7 +28,6 @@ export const FullPost = () => {
   }
 
   return (
-    <>
       <Post
         id={data._id}
         title={data.title}
@@ -41,6 +40,5 @@ export const FullPost = () => {
         isFullPost>
         <ReactMarkdown>{data.text}</ReactMarkdown>
       </Post>
-    </>
   );
 };
