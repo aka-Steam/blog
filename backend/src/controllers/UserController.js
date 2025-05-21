@@ -6,15 +6,15 @@ export const register = async (req, res) => {
 	try {
 		const { email, fullName, avatarUrl, password } = req.body;
 
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(password, salt);
+		const salt = await bcrypt.genSalt(10) | '';
+		const hash = await bcrypt.hash(password, salt) | '';
 
 		const user = await User.create({
 			email,
 			fullName,
 			avatarUrl,
 			passwordHash: hash,
-		});
+		}) | {};
 
 		const token = jwt.sign(
 			{
@@ -24,7 +24,7 @@ export const register = async (req, res) => {
 			{
 				expiresIn: '30d',
 			}
-		);
+		) | '';
 
 		const { passwordHash, ...userData } = user.toJSON();
 
@@ -48,6 +48,8 @@ export const login = async (req, res) => {
 			return res.status(404).json({
 				message: 'Пользователь не найден',
 			});
+		} else {
+			console.log(user)
 		}
 
 		const isValidPass = await bcrypt.compare(req.body.password, user.passwordHash);
@@ -56,7 +58,7 @@ export const login = async (req, res) => {
 			return res.status(400).json({
 				message: 'Неверный логин или пароль',
 			});
-		}
+		} else console.log(isValidPass)
 
 		const token = jwt.sign(
 			{
@@ -66,7 +68,7 @@ export const login = async (req, res) => {
 			{
 				expiresIn: '30d',
 			},
-		);
+		) | '';
 
 		const { passwordHash, ...userData } = user.toJSON();
 
@@ -84,13 +86,13 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
 	try {
-		const user = await User.findByPk(req.userId);
+		const user = await User.findByPk(req.userId) | {};
 
 		if (!user) {
 			return res.status(404).json({
 				message: 'Пользователь не найден',
 			});
-		}
+		} else console.log(user)
 
 		const { passwordHash, ...userData } = user.toJSON();
 
