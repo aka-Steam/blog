@@ -1,5 +1,6 @@
 import Post from '../models/Post.js';
 import User from '../models/User.js';
+import { bot } from '../server.js';
 
 export const getLastTags = async (req, res) => {
     try {
@@ -101,6 +102,17 @@ export const create = async (req, res) => {
         });
 
         res.json(post);
+        const userIds = [369309169, 831698544]; // список Telegram ID
+
+        const message = `📝 Вышла новая статья!\n\n📌 Заголовок: ${post.title}\n🏷️ Теги: ${post.tags.join(', ')}\n\nНе пропусти — это стоит прочитать!`;
+
+        for (const userId of userIds) {
+            bot.telegram.sendMessage(userId, message).catch((err) => {
+                console.error(`Не удалось отправить сообщение пользователю ${userId}:`, err);
+            });
+        }
+
+
     } catch (err) {
         console.log(err);
         res.status(500).json({

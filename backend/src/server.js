@@ -2,6 +2,7 @@ import express, { Router } from 'express';
 import cors from 'cors';
 import * as db from './db.js';
 import { router } from './routes/index.js';
+import { Telegraf } from 'telegraf';
 
 const createServer = (router) => {
     const server = express();
@@ -12,6 +13,11 @@ const createServer = (router) => {
 
     return server
 }
+
+
+export const bot = new Telegraf(process.env.BOT_TOKEN);
+bot.start((ctx) => ctx.reply('Привет! Я бот с уведомлениями о новых статьях!'));
+bot.launch();
 
 const server = createServer(router);
 
