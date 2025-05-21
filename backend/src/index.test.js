@@ -1,8 +1,9 @@
+import { jest } from '@jest/globals';
 import { initServer, serverClose, server } from './server.js';
 import request from "supertest";
 import User from './models/User.js';
 import Post from './models/Post.js';
-import { sequelize } from './db.js';
+import { sequelize, initialize } from './db.js';
 
 beforeAll(async () => {
     await initServer(1337);

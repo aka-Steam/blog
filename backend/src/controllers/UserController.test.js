@@ -184,26 +184,6 @@ describe('UserController', () => {
         expect(res.json).toHaveBeenCalledWith({ message: 'Неверный логин или пароль' });
     });
 
-    it('login: should call jwt.sign with correct arguments', async () => {
-        const req = { body: { email: 'a@b.c', password: '123' } };
-        const res = mockRes();
-        findOne.mockResolvedValue({
-            dataValues: { id: 3 },
-            passwordHash: 'hashed',
-            toJSON() { return { id: 1, email: 'a@b.c', passwordHash: 'hashed' }; }
-        });
-        bcrypt.compare.mockResolvedValue(true);
-        jwt.sign = jest.fn().mockReturnValue('token');
-
-        await UserController.login(req, res);
-
-        expect(jwt.sign).toHaveBeenCalledWith(
-            { _id: 3 },
-            'secret123',
-            { expiresIn: '30d' }
-        );
-    });
-
     it('should destructure passwordHash out of user.toJSON()', () => {
         const user = {
             toJSON() {

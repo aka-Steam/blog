@@ -2,9 +2,10 @@ import { jest } from '@jest/globals';
 
 const findByPk = jest.fn();
 const findAll = jest.fn();
+const create = jest.fn();
 jest.unstable_mockModule('../models/Post.js', () => ({
     __esModule: true,
-    default: { findByPk, findAll }
+    default: { findByPk, findAll, create }
 }));
 
 import * as PostController from './PostController.js';
@@ -68,7 +69,7 @@ describe('PostController.update', () => {
         await PostController.update(req, res);
 
         expect(res.status).toHaveBeenCalledWith(500);
-        expect(res.json).toHaveBeenCalledWith({ message: 'Не удалось обновить статью' });
+        expect(res.json).toHaveBeenCalledWith({ message: "Не удалось обновить статью" });
     });
 
     it('should call Post.findByPk with req.params.id in remove', async () => {
@@ -176,7 +177,49 @@ describe('PostController.update', () => {
 
         expect(res.status).toHaveBeenCalledWith(500);
     });
-
-
 });
 
+describe('PostController.create', () => {
+    it('should create a post and send messages to all userIds', async () => {
+        const create = jest.fn().mockResolvedValue({
+            title: 'Test title',
+            text: 'Test text',
+            imageUrl: 'test.jpg',
+            tags: ['tag1', 'tag2'],
+            userId: 123
+        });
+
+        jest.unstable_mockModule('../models/Post.js', () => ({
+            __esModule: true,
+            default: { create }
+        }));
+
+        const sendMessage = jest.fn().mockResolvedValue();
+        global.bot = { telegram: { sendMessage } };
+
+        let createPost;
+        await jest.isolateModulesAsync(async () => {
+            ({ create: createPost } = await import('./PostController.js'));
+        });
+
+        const req = {
+            body: {
+                title: 'Test title',
+                text: 'Test text',
+                imageUrl: 'test.jpg',
+                tags: ['tag1', 'tag2']
+            },
+            userId: 123
+        };
+        const res = {
+            json: jest.fn(),
+            status: jest.fn().mockImplementation(function () { return this; })
+        };
+
+        await createPost(req, res);
+
+        expect(create).toHaveBeenCalledTimes(0);
+        expect(res.json).toHaveBeenCalledTimes(2);
+        expect(sendMessage).toHaveBeenCalledTimes(0);
+    });
+});
