@@ -4,8 +4,6 @@ import ReactMarkdown from 'react-markdown';
 import axios from '../axios';
 
 import { Post } from '../components/Post';
-import { Index } from '../components/AddComment';
-import { CommentsBlock } from '../components/CommentsBlock';
 
 export const FullPost = () => {
   const [data, setData] = React.useState();
@@ -43,26 +41,6 @@ export const FullPost = () => {
         isFullPost>
         <ReactMarkdown>{data.text}</ReactMarkdown>
       </Post>
-      <CommentsBlock
-        items={[
-          {
-            user: {
-              fullName: 'Степан Семенович',
-              avatarUrl: 'https://mui.com/static/images/avatar/4.jpg',
-            },
-            text: 'Это тестовый комментарий. Продам гараж, звонить 88005556677',
-          },
-          {
-            user: {
-              fullName: 'Саня Друг',
-              avatarUrl: 'https://mui.com/static/images/avatar/6.jpg',
-            },
-            text: 'Брат, пост просто шедевр брат. Ты мне как брат брат',
-          },
-        ]}
-        isLoading={false}>
-        <Index />
-      </CommentsBlock>
     </>
   );
 };
