@@ -11,9 +11,8 @@ export const fetchTags = createAsyncThunk('posts/fetchTags', async () => {
   return data;
 });
 
-// export const fetchRemovePost = createAsyncThunk("posts/fetchRemovePost", async (id) => axios.delete(`/posts/${id}`));
 export const fetchRemovePost = createAsyncThunk(
-  "posts/fetchRemovePost", 
+  "posts/fetchRemovePost",
   async (id) => {
     await axios.delete(`/posts/${id}`); // Отправляем запрос, но не возвращаем весь response
     return id; // Возвращаем только id удалённого поста

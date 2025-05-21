@@ -8,6 +8,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
+import PropTypes from 'prop-types'; // Добавлено для типов
+
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
@@ -55,13 +57,6 @@ export const Post = ({
           </IconButton>
         </div>
       )}
-      {/* {imageUrl && (
-        <img
-          className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-          src={imageUrl}
-          alt={title}
-        />
-      )} */}
       <div className={styles.wrapper}>
         <UserInfo {...user} additionalText={createdAt} />
         <div className={styles.indention}>
@@ -90,4 +85,22 @@ export const Post = ({
       </div>
     </div>
   );
+};
+
+Post.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
+  user: PropTypes.shape({
+    avatarUrl: PropTypes.string,
+    fullName: PropTypes.string.isRequired,
+  }).isRequired,
+  viewsCount: PropTypes.number.isRequired,
+  commentsCount: PropTypes.number,
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  children: PropTypes.node,
+  isFullPost: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  isEditable: PropTypes.bool,
 };

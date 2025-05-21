@@ -40,7 +40,7 @@ describe('Post Component', () => {
 
   beforeEach(() => {
     window.confirm = jest.fn(() => true);
-    
+
     // Мокируем fetchRemovePost перед каждым тестом
     mockFetchRemovePost = jest.fn(() => ({
       type: "posts/removePost",
@@ -77,21 +77,20 @@ describe('Post Component', () => {
 
   it('корректный рендеринг публикации с основными реквизитами', () => {
     renderPost();
-    
+
     expect(screen.getByText('Test Post')).toBeInTheDocument();
     expect(screen.getByText('UserInfo Mock')).toBeInTheDocument();
     expect(screen.getByText('#react')).toBeInTheDocument();
     expect(screen.getByText('#testing')).toBeInTheDocument();
     expect(screen.getByText('100')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
-    // expect(screen.getByRole('img')).toHaveAttribute('src', 'http://example.com/image.jpg');
   });
 
   it('отправляет fetchRemovePost при нажатии кнопки удаления', () => {
     renderPost({ isEditable: true });
 
     fireEvent.click(screen.getByText('DeleteIcon'));
-    
+
     expect(window.confirm).toHaveBeenCalledWith('Вы действительно хотите удалить статью?');
     expect(mockFetchRemovePost).toHaveBeenCalledWith(mockPost.id);
   });

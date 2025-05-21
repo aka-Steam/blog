@@ -1,4 +1,4 @@
-import express, { Router } from 'express';
+import express from 'express';
 import cors from 'cors';
 import * as db from './db.js';
 import { router } from './routes/index.js';

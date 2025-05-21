@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './UserInfo.module.scss';
 
 export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
@@ -11,4 +12,10 @@ export const UserInfo = ({ avatarUrl, fullName, additionalText }) => {
       </div>
     </div>
   );
+};
+
+UserInfo.propTypes = {
+  avatarUrl: PropTypes.string,
+  fullName: PropTypes.string.isRequired,
+  additionalText: PropTypes.string,
 };

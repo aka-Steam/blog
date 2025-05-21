@@ -26,6 +26,7 @@ const initialize = async () => {
                 break;
             } catch (error) {
                 retries -= 1;
+                console.error(`Database connection attempt failed: ${error}`);
                 console.log(`Retrying to connect. Attempts left: ${retries}`);
                 await new Promise(res => setTimeout(res, 5000));  // задержка в 5 секунд
             }

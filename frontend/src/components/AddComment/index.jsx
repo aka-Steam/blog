@@ -8,23 +8,21 @@ import Button from "@mui/material/Button";
 
 export const Index = () => {
   return (
-    <>
-      <div className={styles.root}>
-        <Avatar
-          classes={{ root: styles.avatar }}
-          src="/noavatar.png"
+    <div className={styles.root}>
+      <Avatar
+        classes={{ root: styles.avatar }}
+        src="/noavatar.png"
+      />
+      <div className={styles.form}>
+        <TextField
+          label="Написать комментарий"
+          variant="outlined"
+          maxRows={10}
+          multiline
+          fullWidth
         />
-        <div className={styles.form}>
-          <TextField
-            label="Написать комментарий"
-            variant="outlined"
-            maxRows={10}
-            multiline
-            fullWidth
-          />
-          <Button variant="contained">Отправить</Button>
-        </div>
+        <Button variant="contained">Отправить</Button>
       </div>
-    </>
+    </div>
   );
 };

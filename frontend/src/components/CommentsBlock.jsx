@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { SideBlock } from "./SideBlock";
 import ListItem from "@mui/material/ListItem";
@@ -8,13 +9,16 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
+import { v4 as uuid } from 'uuid';
 
 export const CommentsBlock = ({ items, children, isLoading = true }) => {
+  const uuid = uuid();
+
   return (
     <SideBlock title="Комментарии">
       <List>
         {(isLoading ? [...Array(5)] : items).map((obj, index) => (
-          <React.Fragment key={index}>
+          <React.Fragment key={uuid + index}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 {isLoading ? (
@@ -42,4 +46,18 @@ export const CommentsBlock = ({ items, children, isLoading = true }) => {
       {children}
     </SideBlock>
   );
+};
+
+CommentsBlock.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      user: PropTypes.shape({
+        fullName: PropTypes.string.isRequired,
+        avatarUrl: PropTypes.string,
+      }).isRequired,
+      text: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  children: PropTypes.node,
+  isLoading: PropTypes.bool,
 };
