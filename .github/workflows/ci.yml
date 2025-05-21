@@ -31,6 +31,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_HOST: ${{ secrets.DB_HOST }}
           DB_PORT: ${{ secrets.DB_PORT }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
 
       # ---------- Frontend ----------
       - name: Setup Node.js for Frontend
