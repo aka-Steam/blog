@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/index.js",
     "start:dev": "nodemon src/index.js",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest"
   },
   "author": "",
   "license": "ISC",

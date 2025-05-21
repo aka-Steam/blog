@@ -1,6 +1,6 @@
 import Post from '../models/Post.js';
 import User from '../models/User.js';
-import { bot } from '../server.js';
+import { bot } from '../bot.js';
 
 export const getLastTags = async (req, res) => {
     try {
@@ -123,32 +123,18 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
-        const postId = req.params.id;
-        const { title, text, imageUrl, tags } = req.body;
-
-        const post = await Post.findByPk(postId);
-
+        const post = await Post.findByPk(req.params.id);
         if (!post) {
-            return res.status(404).json({
-                message: 'Статья не найдена',
-            });
+            return res.status(404).json({ message: 'Статья не найдена' });
         }
-
-        post.title = title;
-        post.text = text;
-        post.imageUrl = imageUrl;
-        post.tags = tags;
+        post.title = req.body.title;
+        post.text = req.body.text;
+        post.imageUrl = req.body.imageUrl;
+        post.tags = req.body.tags;
         post.userId = req.userId;
-
         await post.save();
-
-        res.json({
-            success: true,
-        });
+        res.json({ success: true });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось обновить статью',
-        });
+        res.status(500).json({ message: 'Не удалось обновить статью' });
     }
 };
