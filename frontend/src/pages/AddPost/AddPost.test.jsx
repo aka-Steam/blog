@@ -3,11 +3,11 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
-import { AddPost } from '../index';
-import axios from '../../../axios';
+import { AddPost } from './index';
+import axios from '../../axios';
 
 // Mock axios
-jest.mock('../../../axios', () => ({
+jest.mock('../../axios', () => ({
   get: jest.fn(),
   post: jest.fn(),
   patch: jest.fn(),
