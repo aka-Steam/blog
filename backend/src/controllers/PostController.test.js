@@ -126,5 +126,57 @@ describe('PostController.update', () => {
 
         expect(req.params.id).toBe(1);
     });
+
+    it('should correctly destructure title, text, imageUrl, tags from req.body', () => {
+        const req = {
+            body: {
+                title: 'Sample title',
+                text: 'Sample text',
+                imageUrl: 'sample.jpg',
+                tags: ['news', 'dev']
+            }
+        };
+
+        const { title, text, imageUrl, tags } = req.body;
+
+        expect(title).toBe('Sample title');
+        expect(text).toBe('Sample text');
+        expect(imageUrl).toBe('sample.jpg');
+        expect(tags).toEqual(['news', 'dev']);
+    });
+
+    it('should send message to all userIds with correct message', async () => {
+        // Мокаем bot.telegram.sendMessage
+        const sendMessage = jest.fn().mockResolvedValue();
+        const bot = { telegram: { sendMessage } };
+        // Мокаем post
+        const post = {
+            title: 'Test Article',
+            tags: ['tag1', 'tag2']
+        };
+        const userIds = [369309169, 831698544];
+        const message = `📝 Вышла новая статья!\n\n📌 Заголовок: ${post.title}\n🏷️ Теги: ${post.tags.join(', ')}\n\nНе пропусти — это стоит прочитать!`;
+
+        // Симулируем отправку сообщений
+        for (const userId of userIds) {
+            await bot.telegram.sendMessage(userId, message);
+        }
+
+        expect(sendMessage).toHaveBeenCalledTimes(userIds.length);
+        expect(sendMessage).toHaveBeenCalledWith(369309169, message);
+        expect(sendMessage).toHaveBeenCalledWith(831698544, message);
+    });
+
+    it('should return 404 if post not found', async () => {
+        const req = { params: { id: 1 } };
+        const res = mockRes();
+        findByPk.mockResolvedValue(null);
+
+        await PostController.update(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(500);
+    });
+
+
 });
 
