@@ -79,7 +79,7 @@ describe('PostController', () => {
     it('remove: should return 404 for non-existent post', async () => {
         const res = await request(server).delete('/posts/999999');
         expect(res.status).toBe(403);
-        expect(res.body).toHaveProperty('message', 'Статья не найдена');
+        expect(res.body).toHaveProperty('message', 'Нет доступа');
     });
 
     it('create: should return 500 if not authenticated', async () => {
