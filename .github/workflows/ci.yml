@@ -121,7 +121,7 @@ jobs:
         run: docker push swerthk/blog-frontend:latest
 
   deploy:
-    needs: sonarqube-scan
+    needs: [sonarqube-scan, docker-push]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
