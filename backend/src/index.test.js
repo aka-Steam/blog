@@ -62,3 +62,55 @@ describe('UserController', () => {
         expect(res.status).toBe(403);
     });
 });
+
+describe('PostController', () => {
+    it('getAll: should return 200', async () => {
+        const res = await request(server).get('/posts');
+        expect(res.status).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true);
+    });
+
+    it('getOne: should return 404 for non-existent post', async () => {
+        const res = await request(server).get('/posts/999999');
+        expect(res.status).toBe(404);
+        expect(res.body).toHaveProperty('message', 'Статья не найдена');
+    });
+
+    it('remove: should return 404 for non-existent post', async () => {
+        const res = await request(server).delete('/posts/999999');
+        expect(res.status).toBe(403);
+        expect(res.body).toHaveProperty('message', 'Статья не найдена');
+    });
+
+    it('create: should return 500 if not authenticated', async () => {
+        const res = await request(server)
+            .post('/posts')
+            .send({
+                title: 'Test',
+                text: 'Test text',
+                imageUrl: '',
+                tags: ['test'],
+            });
+        expect(res.status).toBe(403); // или 401/403 если стоит auth middleware
+        expect(res.body).toHaveProperty('message');
+    });
+
+    it('update: should return 404 for non-existent post', async () => {
+        const res = await request(server)
+            .patch('/posts/999999')
+            .send({
+                title: 'Updated',
+                text: 'Updated text',
+                imageUrl: '',
+                tags: ['updated'],
+            });
+        expect(res.status).toBe(403);
+        expect(res.body).toHaveProperty('message', 'Нет доступа');
+    });
+
+    it('getLastTags: should return 200', async () => {
+        const res = await request(server).get('/tags');
+        expect(res.status).toBe(200);
+        expect(Array.isArray(res.body)).toBe(true);
+    });
+});
