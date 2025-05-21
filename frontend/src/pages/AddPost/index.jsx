@@ -37,7 +37,6 @@ export const AddPost = () => {
 
   const onSubmit = async () => {
     try {
-      // setLoading(true);
 
       const fields = {
         title,

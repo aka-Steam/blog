@@ -12,13 +12,13 @@ import Skeleton from "@mui/material/Skeleton";
 import { v4 as uuid } from 'uuid';
 
 export const CommentsBlock = ({ items, children, isLoading = true }) => {
-  const uuid = uuid();
+  const uuidFragment = uuid();
 
   return (
     <SideBlock title="Комментарии">
       <List>
         {(isLoading ? [...Array(5)] : items).map((obj, index) => (
-          <React.Fragment key={uuid + index}>
+          <React.Fragment key={uuidFragment + index}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 {isLoading ? (

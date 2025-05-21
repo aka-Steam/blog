@@ -10,7 +10,7 @@ export const Home = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
   const { posts } = useSelector((state) => state.posts);
-  const uuid = uuid();
+  const uuidPost = uuid();
 
   const isPostsLoading = (posts.status === 'loading') || (posts.status === 'error');
 
@@ -20,33 +20,31 @@ export const Home = () => {
   }, [dispatch]);
 
   return (
-    <>
-      <Grid container spacing={4}>
-        <Grid xs={12} item>
-          {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
-            isPostsLoading ? (
-              <Post key={uuid + index} isLoading={true} />
-            ) : (
-              <Post
-                key={obj.id}
-                id={obj.id}
-                title={obj.title}
-                imageUrl={
-                  obj.imageUrl
-                    ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}`
-                    : ""
-                }
-                user={obj.user}
-                createdAt={obj.createdAt}
-                viewsCount={obj.viewsCount}
-                commentsCount={3}
-                tags={obj.tags}
-                isEditable={!!userData && !!obj.user && userData.id === obj.user.id}
-              />
-            )
-          )}
-        </Grid>
+    <Grid container spacing={4}>
+      <Grid xs={12} item>
+        {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
+          isPostsLoading ? (
+            <Post key={uuidPost + index} isLoading={true} />
+          ) : (
+            <Post
+              key={obj.id}
+              id={obj.id}
+              title={obj.title}
+              imageUrl={
+                obj.imageUrl
+                  ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}`
+                  : ""
+              }
+              user={obj.user}
+              createdAt={obj.createdAt}
+              viewsCount={obj.viewsCount}
+              commentsCount={3}
+              tags={obj.tags}
+              isEditable={!!userData && !!obj.user && userData.id === obj.user.id}
+            />
+          )
+        )}
       </Grid>
-    </>
+    </Grid>
   );
 };
