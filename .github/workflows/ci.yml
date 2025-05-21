@@ -121,21 +121,21 @@ jobs:
         run: docker push swerthk/blog-frontend:latest
 
   deploy:
-  needs: sonarqube-scan
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
+    needs: sonarqube-scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Configure YC CLI
-      uses: yandex-cloud/yc-cli-action@v1
-      with:
-        service-account-key: ${{ secrets.YC_SERVICE_ACCOUNT_KEY }}
-        folder-id: ${{ secrets.YC_FOLDER_ID }}
+      - name: Configure YC CLI
+        uses: yandex-cloud/yc-cli-action@v1
+        with:
+          service-account-key: ${{ secrets.YC_SERVICE_ACCOUNT_KEY }}
+          folder-id: ${{ secrets.YC_FOLDER_ID }}
 
-    - name: Deploy to Kubernetes
-      run: |
-        yc managed-kubernetes cluster get-credentials <cluster-name> --external
-        kubectl apply -f k8s/ingress.yaml
-        kubectl apply -f k8s/frontend/
-        kubectl apply -f k8s/backend/
-        kubectl apply -f k8s/sonarqube/
+      - name: Deploy to Kubernetes
+        run: |
+          yc managed-kubernetes cluster get-credentials <cluster-name> --external
+          kubectl apply -f k8s/ingress.yaml
+          kubectl apply -f k8s/frontend/
+          kubectl apply -f k8s/backend/
+          kubectl apply -f k8s/sonarqube/
