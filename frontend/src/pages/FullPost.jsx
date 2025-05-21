@@ -9,7 +9,7 @@ import { CommentsBlock } from '../components/CommentsBlock';
 
 export const FullPost = () => {
   const [data, setData] = React.useState();
-  const [isLoading, setLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
   const { id } = useParams();
 
   React.useEffect(() => {
@@ -17,7 +17,7 @@ export const FullPost = () => {
       .get(`/posts/${id}`)
       .then((res) => {
         setData(res.data);
-        setLoading(false);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.warn(err);
