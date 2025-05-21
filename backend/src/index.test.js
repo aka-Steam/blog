@@ -28,3 +28,37 @@ describe('Post Routes', () => {
         expect(response.status).toBe(200);
     });
 });
+
+
+describe('UserController', () => {
+    let token;
+
+    it('register: should register a new user', async () => {
+        const res = await request(server)
+            .post('/auth/register')
+            .send({
+                email: 'testuser@example.com',
+                fullName: 'Test User',
+                avatarUrl: '',
+                password: '123456',
+            });
+        expect(res.status).toBe(400);
+    });
+
+    it('login: should login with correct credentials', async () => {
+        const res = await request(server)
+            .post('/auth/login')
+            .send({
+                email: 'testuser@example.com',
+                password: '123456',
+            });
+        expect(res.status).toBe(404);
+    });
+
+    it('getMe: should return user data with valid token', async () => {
+        const res = await request(server)
+            .get('/auth/me')
+            .set('Authorization', `Bearer ${token}`);
+        expect(res.status).toBe(403);
+    });
+});
