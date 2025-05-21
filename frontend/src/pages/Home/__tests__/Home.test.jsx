@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
-import { Home } from '../../Home';
+import { Home } from '../index';
 
 // Mock uuid
 jest.mock('uuid', () => ({

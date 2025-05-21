@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import axios from '../../../axios';
-import { FullPost } from '../../FullPost';
+import { FullPost } from '../index';
 
 // Mock axios
 jest.mock('../../../axios', () => ({

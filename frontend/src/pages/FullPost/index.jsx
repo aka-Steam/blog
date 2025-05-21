@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import axios from '../axios';
+import axios from '../../axios';
 
-import { Post } from '../components/Post';
+import { Post } from '../../components/Post';
 
 export const FullPost = () => {
   const [data, setData] = React.useState();

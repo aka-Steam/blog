@@ -2,8 +2,8 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 
-import { Post } from '../components/Post';
-import { fetchPosts, fetchTags } from '../redux/slices/posts';
+import { Post } from '../../components/Post';
+import { fetchPosts, fetchTags } from '../../redux/slices/posts';
 import { v4 as uuid } from 'uuid';
 
 export const Home = () => {
