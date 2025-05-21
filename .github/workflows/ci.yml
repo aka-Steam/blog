@@ -48,6 +48,14 @@ jobs:
       - name: Run Frontend Tests
         working-directory: frontend
         run: npm test -- --coverage
+        
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            backend/coverage
+            frontend/coverage
 
   sonarqube-scan:
     name: SonarQube Analysis
@@ -58,6 +66,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          
+      - name: Download coverage reports
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports
+          path: .
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
@@ -70,7 +84,8 @@ jobs:
             -Dsonar.sources=./backend/src,./frontend/src
             -Dsonar.tests=./backend/src,./frontend/src
             -Dsonar.test.inclusions=**/*.spec.js,**/*.test.js
-            -Dsonar.javascript.lcov.reportPaths=./backend/coverage/lcov.info,./frontend/coverage/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=backend/coverage/lcov.info,frontend/coverage/lcov.info
+            -Dsonar.coverage.exclusions=**/node_modules/**,**/*.test.js,**/*.spec.js
             -Dsonar.qualitygate.wait=true
 
   build:
