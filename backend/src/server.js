@@ -37,7 +37,7 @@ const serverClose = async (port) => {
         console.log('Server closed');
         serverListener.close();
     });
-    bot.stop();
+    // bot.stop();
 };
 
 
