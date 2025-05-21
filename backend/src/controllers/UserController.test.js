@@ -103,4 +103,84 @@ describe('UserController', () => {
 
         expect(typeof res.json.mock.calls[0][0]).toBe('object');
     });
+
+    it('register: should call bcrypt.genSalt and bcrypt.hash with correct arguments', async () => {
+        const req = { body: { email: '', fullName: '', avatarUrl: '', password: 'mypassword' } };
+        const res = mockRes();
+        bcrypt.genSalt.mockResolvedValue('salt');
+        bcrypt.hash.mockResolvedValue('hashed');
+        create.mockResolvedValue({
+            _id: 1,
+            toJSON() { return { _id: 1 }; }
+        });
+
+        await UserController.register(req, res);
+
+        expect(bcrypt.genSalt).toHaveBeenCalledWith(10);
+        expect(bcrypt.hash).toHaveBeenCalledWith('mypassword', 'salt');
+    });
+
+    it('register: should call jwt.sign with correct arguments', async () => {
+        const req = { body: { email: 'a@b.c', fullName: 'Test', avatarUrl: '', password: '123' } };
+        const res = mockRes();
+        bcrypt.genSalt.mockResolvedValue('salt');
+        bcrypt.hash.mockResolvedValue('hashed');
+        create.mockResolvedValue({
+            _id: 1,
+            email: 'a@b.c',
+            fullName: 'Test',
+            avatarUrl: '',
+            passwordHash: 'hashed',
+            toJSON() { return { _id: 1, email: 'a@b.c', fullName: 'Test', avatarUrl: '', passwordHash: 'hashed' }; }
+        });
+        jwt.sign = jest.fn().mockReturnValue('token');
+
+        await UserController.register(req, res);
+
+        expect(jwt.sign).toHaveBeenCalledWith(
+            { _id: undefined },
+            'secret123',
+            { expiresIn: '30d' }
+        );
+    });
+
+    it('should destructure passwordHash out of user.toJSON()', () => {
+        const user = {
+            toJSON() {
+                return {
+                    _id: 1,
+                    email: 'a@b.c',
+                    fullName: 'Test',
+                    passwordHash: 'hashed',
+                    avatarUrl: '',
+                };
+            }
+        };
+
+        const { passwordHash, ...userData } = user.toJSON();
+
+        expect(passwordHash).toBe('hashed');
+        expect(userData).toEqual({
+            _id: 1,
+            email: 'a@b.c',
+            fullName: 'Test',
+            avatarUrl: '',
+        });
+        expect(userData.passwordHash).toBeUndefined();
+    });
+
+    it('login: should return 400 if password invalid', async () => {
+        const req = { body: { email: 'a@b.c', password: 'wrong' } };
+        const res = mockRes();
+        findOne.mockResolvedValue({
+            passwordHash: 'hashed',
+            toJSON() { return { passwordHash: 'hashed' }; }
+        });
+        bcrypt.compare.mockResolvedValue(false);
+
+        await UserController.login(req, res);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ message: 'Неверный логин или пароль' });
+    });
 });
