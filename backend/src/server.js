@@ -16,8 +16,7 @@ const createServer = (router) => {
 
 
 export const bot = new Telegraf(process.env.BOT_TOKEN);
-bot.start((ctx) => ctx.reply('Привет! Я бот с уведомлениями о новых статьях!'));
-bot.launch();
+
 
 const server = createServer(router);
 
@@ -29,6 +28,8 @@ const initServer = async (port) => {
             console.log(`Server started on port ${port}`);
         });
     });
+    bot.start((ctx) => ctx.reply('Привет! Я бот с уведомлениями о новых статьях!'));
+    bot.launch();
 }
 
 const serverClose = async (port) => {
