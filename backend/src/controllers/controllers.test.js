@@ -1,3 +1,15 @@
+import request from "supertest";
+import { initServer, serverClose, server } from '../server.js';
+
+beforeAll(async () => {
+    await initServer(1337);
+});
+
+afterAll(async () => {
+    await serverClose()
+    // setTimeout(() => process.exit(Number(0)), 1000)
+})
+
 describe('UserController', () => {
     let token;
 

@@ -1,7 +1,16 @@
-import User from './models/User.js';
-import Post from './models/Post.js';
-import { sequelize } from './db.js';
+import User from './User.js';
+import Post from './Post.js';
+import { sequelize } from '../db.js';
+import { initServer, serverClose } from '../server.js';
 
+beforeAll(async () => {
+    await initServer(1337);
+});
+
+afterAll(async () => {
+    await serverClose()
+    // setTimeout(() => process.exit(Number(0)), 1000)
+})
 
 describe('User model', () => {
     beforeEach(async () => {
