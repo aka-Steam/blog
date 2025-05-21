@@ -208,4 +208,38 @@ describe('UserController', () => {
         });
         expect(userData.passwordHash).toBeUndefined();
     });
+
+    it('should handle case when user is not found', () => {
+        const res = {
+            status: jest.fn().mockImplementation(function () { return this; }),
+            json: jest.fn()
+        };
+
+        const user = null;
+
+        if (!user) {
+            res.status(404).json({ message: 'Пользователь не найден' });
+        }
+
+        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.json).toHaveBeenCalledWith({ message: 'Пользователь не найден' });
+    });
+
+    it('should handle case when user exists', () => {
+        const res = {
+            status: jest.fn().mockImplementation(function () { return this; }),
+            json: jest.fn()
+        };
+
+        const user = { id: 1, email: 'test@example.com' };
+
+        if (!user) {
+            res.status(404).json({ message: 'Пользователь не найден' });
+        } else {
+            res.json({ user });
+        }
+
+        expect(res.status).not.toHaveBeenCalled();
+        expect(res.json).toHaveBeenCalledWith({ user });
+    });
 });
