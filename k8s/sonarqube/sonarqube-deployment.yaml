@@ -43,7 +43,7 @@ spec:
             - name: SONARQUBE_WEB_JVMOPTS
               value: "-Xmx2048m -Xms1024m"
             - name: ES_JAVA_OPTS
-              value: "-Xmx2g -Xms1g
+              value: "-Xmx2g -Xms1g"
           volumeMounts:
             - mountPath: /opt/sonarqube/data
               name: sonarqube-data
