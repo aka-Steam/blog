@@ -27,7 +27,7 @@ spec:
           requests:
             cpu: "400m"  # Минимум 0.4 CPU
           limits:
-            cpu: "800m"  # Максимум 0.8 CPU
+            cpu: "1500m"  # Максимум 1.5 CPU
 ---
 apiVersion: v1
 kind: Service
