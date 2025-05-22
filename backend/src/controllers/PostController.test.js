@@ -97,23 +97,6 @@ describe('PostController.update', () => {
         logSpy.mockRestore();
     });
 
-    it('should destructure fields from req.body', () => {
-        const req = {
-            body: {
-                title: 'Test title',
-                text: 'Test text',
-                imageUrl: 'test.jpg',
-                tags: ['tag1', 'tag2']
-            }
-        };
-
-        const { title, text, imageUrl, tags } = req.body;
-
-        expect(title).toBe('Test title');
-        expect(text).toBe('Test text');
-        expect(imageUrl).toBe('test.jpg');
-        expect(tags).toEqual(['tag1', 'tag2']);
-    });
 
     it('should contain correct userIds', () => {
         const userIds = [369309169, 831698544];
@@ -126,46 +109,6 @@ describe('PostController.update', () => {
         findByPk.mockResolvedValue(null);
 
         expect(req.params.id).toBe(1);
-    });
-
-    it('should correctly destructure title, text, imageUrl, tags from req.body', () => {
-        const req = {
-            body: {
-                title: 'Sample title',
-                text: 'Sample text',
-                imageUrl: 'sample.jpg',
-                tags: ['news', 'dev']
-            }
-        };
-
-        const { title, text, imageUrl, tags } = req.body;
-
-        expect(title).toBe('Sample title');
-        expect(text).toBe('Sample text');
-        expect(imageUrl).toBe('sample.jpg');
-        expect(tags).toEqual(['news', 'dev']);
-    });
-
-    it('should send message to all userIds with correct message', async () => {
-        // Мокаем bot.telegram.sendMessage
-        const sendMessage = jest.fn().mockResolvedValue();
-        const bot = { telegram: { sendMessage } };
-        // Мокаем post
-        const post = {
-            title: 'Test Article',
-            tags: ['tag1', 'tag2']
-        };
-        const userIds = [369309169, 831698544];
-        const message = `📝 Вышла новая статья!\n\n📌 Заголовок: ${post.title}\n🏷️ Теги: ${post.tags.join(', ')}\n\nНе пропусти — это стоит прочитать!`;
-
-        // Симулируем отправку сообщений
-        for (const userId of userIds) {
-            await bot.telegram.sendMessage(userId, message);
-        }
-
-        expect(sendMessage).toHaveBeenCalledTimes(userIds.length);
-        expect(sendMessage).toHaveBeenCalledWith(369309169, message);
-        expect(sendMessage).toHaveBeenCalledWith(831698544, message);
     });
 
     it('should return 404 if post not found', async () => {

@@ -119,7 +119,6 @@ describe('PostController', () => {
     });
 });
 
-
 describe('User model', () => {
     beforeEach(async () => {
         await sequelize.sync({ force: true });
