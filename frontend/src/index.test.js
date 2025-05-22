@@ -18,13 +18,15 @@ describe('Index', () => {
 
   it('должен отрендерить приложение со всеми необходимыми провайдерами', () => {
     render(
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </BrowserRouter>
-      </ThemeProvider>
+      <>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </BrowserRouter>
+        </ThemeProvider>
+      </>
     );
 
     // Проверяем наличие App компонента
@@ -33,13 +35,15 @@ describe('Index', () => {
 
   it('должен иметь корректную структуру провайдеров', () => {
     render(
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </BrowserRouter>
-      </ThemeProvider>
+      <>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </BrowserRouter>
+        </ThemeProvider>
+      </>
     );
 
     // Проверяем наличие App компонента внутри провайдеров
