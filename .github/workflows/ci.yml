@@ -185,6 +185,16 @@ jobs:
       - name: Get cluster credentials
         run: yc managed-kubernetes cluster get-credentials cat813i6hpesg9o1qsdo --external
 
+      - name: Update Kubernetes Secret
+        run: |
+          kubectl create secret generic backend-secrets \
+            --from-literal=DB_USER=${{ secrets.DB_USER }} \
+            --from-literal=DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+            --from-literal=DB_HOST=${{ secrets.DB_HOST }} \
+            --from-literal=DB_PORT=${{ secrets.DB_PORT }} \
+            --from-literal=BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f k8s/ingress.yaml
