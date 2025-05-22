@@ -192,7 +192,7 @@ jobs:
             --from-literal=DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
             --from-literal=DB_HOST=${{ secrets.DB_HOST }} \
             --from-literal=DB_PORT=${{ secrets.DB_PORT }} \
-            --from-literal=BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} \
+            --from-literal=BOT_TOKEN=${{ secrets.BOT_TOKEN }} \
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Apply Kubernetes manifests
