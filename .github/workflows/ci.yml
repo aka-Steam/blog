@@ -118,12 +118,41 @@ jobs:
       - name: Build Frontend Docker image
         run: docker build -t swerthk/blog-frontend:latest ./frontend
 
+      - name: Save Backend Docker image
+        run: docker save swerthk/blog-backend:latest -o backend.tar
+
+      - name: Save Frontend Docker image
+        run: docker save swerthk/blog-frontend:latest -o frontend.tar
+
+      - name: Upload Docker images
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-images
+          path: |
+            backend.tar
+            frontend.tar
+
   docker-push:
     name: Push Docker Images
     runs-on: ubuntu-latest
     needs: build
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Docker images
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-images
+          path: .
+
+      - name: Load Backend Docker image
+        run: docker load -i backend.tar
+
+      - name: Load Frontend Docker image
+        run: docker load -i frontend.tar
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
