@@ -69,27 +69,6 @@ describe('Компонент AddPost', () => {
     expect(window.location.pathname).toBe('/');
   });
 
-//   it('загружает данные поста в режиме редактирования', async () => {
-//     const mockPost = {
-//       title: 'Test Post',
-//       text: 'Test Content',
-//       imageUrl: 'test.jpg',
-//       tags: ['test', 'blog'],
-//     };
-
-//     axios.get.mockResolvedValueOnce({ data: mockPost });
-
-//     renderWithProviders(<AddPost />, { params: { id: '123' } });
-
-//     await waitFor(() => {
-//       expect(axios.get).toHaveBeenCalledWith('/posts/123');
-//     });
-
-//     expect(screen.getByPlaceholderText('Заголовок статьи...')).toHaveValue('Test Post');
-//     expect(screen.getByTestId('mde-editor')).toHaveValue('Test Content');
-//     expect(screen.getByPlaceholderText('Тэги')).toHaveValue('test,blog');
-//   });
-
   it('обрабатывает отправку формы для нового поста', async () => {
     const mockResponse = { data: { id: '123' } };
     axios.post.mockResolvedValueOnce(mockResponse);
@@ -120,41 +99,6 @@ describe('Компонент AddPost', () => {
     });
   });
 
-//   it('обрабатывает отправку формы для редактирования поста', async () => {
-//     const mockPost = {
-//       title: 'Test Post',
-//       text: 'Test Content',
-//       imageUrl: 'test.jpg',
-//       tags: ['test', 'blog'],
-//     };
-
-//     axios.get.mockResolvedValueOnce({ data: mockPost });
-//     axios.patch.mockResolvedValueOnce({ data: mockPost });
-
-//     renderWithProviders(<AddPost />, { params: { id: '123' } });
-
-//     await waitFor(() => {
-//       expect(screen.getByText('Сохранить')).toBeInTheDocument();
-//     });
-
-//     // Update the form
-//     fireEvent.change(screen.getByPlaceholderText('Заголовок статьи...'), {
-//       target: { value: 'Updated Post' },
-//     });
-
-//     // Submit the form
-//     fireEvent.click(screen.getByText('Сохранить'));
-
-//     await waitFor(() => {
-//       expect(axios.patch).toHaveBeenCalledWith('/posts/123', {
-//         title: 'Updated Post',
-//         imageUrl: 'test.jpg',
-//         tags: ['test', 'blog'],
-//         text: 'Test Content',
-//       });
-//     });
-//   });
-
   it('обрабатывает ошибку при создании поста', async () => {
     const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
@@ -173,23 +117,6 @@ describe('Компонент AddPost', () => {
     consoleSpy.mockRestore();
     alertSpy.mockRestore();
   });
-
-    //   it('обрабатывает ошибку при загрузке поста', async () => {
-    //     const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
-    //     const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
-        
-    //     axios.get.mockRejectedValueOnce(new Error('API Error'));
-
-    //     renderWithProviders(<AddPost />, { params: { id: '123' } });
-
-    //     await waitFor(() => {
-    //       expect(consoleSpy).toHaveBeenCalled();
-    //     });
-    //     expect(alertSpy).toHaveBeenCalledWith('Ошибка при получении статьи!');
-
-    //     consoleSpy.mockRestore();
-    //     alertSpy.mockRestore();
-    //   });
 
   it('корректно обрабатывает теги', async () => {
     const mockResponse = { data: { id: '123' } };

@@ -142,63 +142,6 @@ describe('Компонент Home', () => {
     });
   });
 
-//   it('отображает правильные данные поста', async () => {
-//     const mockPost = {
-//       id: '1',
-//       title: 'Test Post',
-//       imageUrl: '/test.jpg',
-//       user: { id: '1', fullName: 'Test User' },
-//       createdAt: '2024-03-20T12:00:00.000Z',
-//       viewsCount: 100,
-//       tags: ['test', 'post'],
-//     };
-
-//     renderWithProviders(<Home />, {
-//       posts: {
-//         posts: {
-//           items: [mockPost],
-//           status: 'loaded',
-//         },
-//       },
-//     });
-
-//     await waitFor(() => {
-//       expect(screen.getByText('Test Post')).toBeInTheDocument();
-//       expect(screen.getByText('Test User')).toBeInTheDocument();
-//       expect(screen.getByText('test')).toBeInTheDocument();
-//       expect(screen.getByText('post')).toBeInTheDocument();
-//     });
-//   });
-
-//   it('правильно определяет возможность редактирования поста', async () => {
-//     const mockPost = {
-//       id: '1',
-//       title: 'Test Post',
-//       imageUrl: '/test.jpg',
-//       user: { id: '1', fullName: 'Test User' },
-//       createdAt: '2024-03-20T12:00:00.000Z',
-//       viewsCount: 100,
-//       tags: ['test', 'post'],
-//     };
-
-//     renderWithProviders(<Home />, {
-//       posts: {
-//         posts: {
-//           items: [mockPost],
-//           status: 'loaded',
-//         },
-//       },
-//       auth: {
-//         data: { id: '1' }, // Тот же ID, что и у автора поста
-//       },
-//     });
-
-//     await waitFor(() => {
-//       const editButton = screen.getByTestId('edit-button');
-//       expect(editButton).toBeInTheDocument();
-//     });
-//   });
-
   it('не показывает кнопку редактирования для чужого поста', async () => {
     const mockPost = {
       id: '1',

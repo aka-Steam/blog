@@ -66,39 +66,6 @@ describe('Компонент FullPost', () => {
     expect(axios.get).toHaveBeenCalledWith('/posts/123');
   });
 
-  // it('отображает данные поста после загрузки', async () => {
-  //   const mockPost = {
-  //     _id: '123',
-  //     title: 'Test Post',
-  //     imageUrl: '/test.jpg',
-  //     user: { fullName: 'Test User' },
-  //     createdAt: '2024-03-20T12:00:00.000Z',
-  //     viewsCount: 100,
-  //     tags: ['test', 'post'],
-  //     text: '# Test Content\n\nThis is a test post.',
-  //   };
-
-  //   axios.get.mockResolvedValueOnce({ data: mockPost });
-
-  //   renderWithRouter(<FullPost />);
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText('Test Post')).toBeInTheDocument();
-  //   });
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText('Test User')).toBeInTheDocument();
-  //   });
-
-  //   await waitFor(() => {
-  //     expect(screen.getByTestId('markdown')).toBeInTheDocument();
-  //   });
-
-  //   await waitFor(() => {
-  //     expect(screen.getByTestId('markdown')).toHaveTextContent('# Test Content\n\nThis is a test post.');
-  //   });
-  // });
-
   it('обрабатывает ошибку при загрузке поста', async () => {
     const consoleSpy = jest.spyOn(console, 'warn').mockImplementation();
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation();

@@ -73,55 +73,6 @@ describe('Компонент Login', () => {
     expect(await screen.findByText('Укажите пароль')).toBeInTheDocument();
   });
 
-//   it('успешно авторизует пользователя', async () => {
-//     const mockAuthResponse = {
-//       payload: {
-//         token: 'test-token',
-//       },
-//     };
-    
-//     mockDispatch.mockResolvedValueOnce(mockAuthResponse);
-    
-//     renderWithProviders(<Login />);
-    
-//     const emailInput = screen.getByLabelText('E-Mail');
-//     const passwordInput = screen.getByLabelText('Пароль');
-//     const submitButton = screen.getByText('Войти');
-    
-//     fireEvent.change(emailInput, { target: { value: 'test@test.ru' } });
-//     fireEvent.change(passwordInput, { target: { value: '123' } });
-    
-//     fireEvent.click(submitButton);
-    
-//     await waitFor(() => {
-//       expect(mockDispatch).toHaveBeenCalled();
-//     });
-    
-//     expect(localStorage.setItem).toHaveBeenCalledWith('token', 'test-token');
-//   });
-
-//   it('показывает ошибку при неудачной авторизации', async () => {
-//     const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
-//     mockDispatch.mockResolvedValueOnce({ payload: null });
-    
-//     renderWithProviders(<Login />);
-    
-//     const emailInput = screen.getByLabelText('E-Mail');
-//     const passwordInput = screen.getByLabelText('Пароль');
-//     const submitButton = screen.getByText('Войти');
-    
-//     fireEvent.change(emailInput, { target: { value: 'test@test.ru' } });
-//     fireEvent.change(passwordInput, { target: { value: '123' } });
-    
-//     fireEvent.click(submitButton);
-    
-//     await waitFor(() => {
-//       expect(alertSpy).toHaveBeenCalledWith('Не удалось авторизоваться!');
-//     });
-    
-//     alertSpy.mockRestore();
-//   });
-
   it('кнопка входа неактивна при невалидной форме', () => {
     renderWithProviders(<Login />);
     
