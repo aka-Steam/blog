@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { Registration } from '../index';
+import { fetchRegister } from '../../../redux/slices/auth';
 
 // Mock Redux store
 const createMockStore = (isAuth = false) => {
@@ -18,6 +19,12 @@ const createMockStore = (isAuth = false) => {
     },
   });
 };
+
+// Mock fetchRegister
+jest.mock('../../../redux/slices/auth', () => ({
+  ...jest.requireActual('../../../redux/slices/auth'),
+  fetchRegister: jest.fn(),
+}));
 
 // Mock dispatch function
 const mockDispatch = jest.fn();
@@ -78,62 +85,114 @@ describe('Компонент Registration', () => {
     expect(await screen.findByText('Укажите пароль')).toBeInTheDocument();
   });
 
-//   it('успешно регистрирует пользователя', async () => {
-//     const mockRegisterResponse = {
-//       payload: {
-//         token: 'test-token',
-//       },
-//     };
+  it('успешно регистрирует пользователя', async () => {
+    const mockRegisterResponse = {
+      type: 'auth/fetchRegister/fulfilled',
+      payload: {
+        id: 4,
+        email: 'vasya@test.ru',
+        fullName: 'Вася Пупкин',
+        avatarUrl: null,
+        updatedAt: '2025-05-22T07:34:28.938Z',
+        createdAt: '2025-05-22T07:34:28.938Z',
+        token: 'test-token'
+      },
+      meta: {
+        arg: {
+          fullName: 'Вася Пупкин',
+          email: 'vasya@test.ru',
+          password: '12345'
+        },
+        requestId: '1b3JidfmbQRVhImT1v_T9',
+        requestStatus: 'fulfilled'
+      }
+    };
     
-//     mockDispatch.mockResolvedValueOnce(mockRegisterResponse);
+    mockDispatch.mockResolvedValueOnce(mockRegisterResponse);
     
-//     renderWithProviders(<Registration />);
+    renderWithProviders(<Registration />);
     
-//     const fullNameInput = screen.getByLabelText('Полное имя');
-//     const emailInput = screen.getByLabelText('E-Mail');
-//     const passwordInput = screen.getByLabelText('Пароль');
-//     const submitButton = screen.getByText('Зарегистрироваться');
+    const fullNameInput = screen.getByLabelText('Полное имя');
+    const emailInput = screen.getByLabelText('E-Mail');
+    const passwordInput = screen.getByLabelText('Пароль');
+    const submitButton = screen.getByText('Зарегистрироваться');
     
-//     fireEvent.change(fullNameInput, { target: { value: 'Вася Пупкин' } });
-//     fireEvent.change(emailInput, { target: { value: 'vasya@test.ru' } });
-//     fireEvent.change(passwordInput, { target: { value: '1234' } });
+    // Заполняем форму
+    fireEvent.change(fullNameInput, { target: { value: 'Вася Пупкин' } });
+    fireEvent.change(emailInput, { target: { value: 'vasya@test.ru' } });
+    fireEvent.change(passwordInput, { target: { value: '12345' } });
     
-//     fireEvent.click(submitButton);
+    // Ждем, пока форма станет валидной
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled();
+    });
     
-//     await waitFor(() => {
-//       expect(mockDispatch).toHaveBeenCalledWith({
-//         fullName: 'Вася Пупкин',
-//         email: 'vasya@test.ru',
-//         password: '1234',
-//       });
-//     });
+    // Отправляем форму
+    fireEvent.click(submitButton);
     
-//     expect(localStorage.setItem).toHaveBeenCalledWith('token', 'test-token');
-//   });
+    // Проверяем, что fetchRegister был вызван с правильными параметрами
+    await waitFor(() => {
+      expect(fetchRegister).toHaveBeenCalledWith({
+        fullName: 'Вася Пупкин',
+        email: 'vasya@test.ru',
+        password: '12345'
+      });
+    });
+    
+    expect(localStorage.setItem).toHaveBeenCalledWith('token', 'test-token');
+  });
 
-//   it('показывает ошибку при неудачной регистрации', async () => {
-//     const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
-//     mockDispatch.mockResolvedValueOnce({ payload: null });
+  it('показывает ошибку при неудачной регистрации', async () => {
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation();
+    mockDispatch.mockResolvedValueOnce({ 
+      type: 'auth/fetchRegister/fulfilled',
+      payload: null,
+      meta: {
+        arg: {
+          fullName: 'Вася Пупкин',
+          email: 'vasya@test.ru',
+          password: '12345'
+        },
+        requestId: '1b3JidfmbQRVhImT1v_T9',
+        requestStatus: 'fulfilled'
+      }
+    });
     
-//     renderWithProviders(<Registration />);
+    renderWithProviders(<Registration />);
     
-//     const fullNameInput = screen.getByLabelText('Полное имя');
-//     const emailInput = screen.getByLabelText('E-Mail');
-//     const passwordInput = screen.getByLabelText('Пароль');
-//     const submitButton = screen.getByText('Зарегистрироваться');
+    const fullNameInput = screen.getByLabelText('Полное имя');
+    const emailInput = screen.getByLabelText('E-Mail');
+    const passwordInput = screen.getByLabelText('Пароль');
+    const submitButton = screen.getByText('Зарегистрироваться');
     
-//     fireEvent.change(fullNameInput, { target: { value: 'Вася Пупкин' } });
-//     fireEvent.change(emailInput, { target: { value: 'vasya@test.ru' } });
-//     fireEvent.change(passwordInput, { target: { value: '1234' } });
+    // Заполняем форму
+    fireEvent.change(fullNameInput, { target: { value: 'Вася Пупкин' } });
+    fireEvent.change(emailInput, { target: { value: 'vasya@test.ru' } });
+    fireEvent.change(passwordInput, { target: { value: '12345' } });
     
-//     fireEvent.click(submitButton);
+    // Ждем, пока форма станет валидной
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled();
+    });
     
-//     await waitFor(() => {
-//       expect(alertSpy).toHaveBeenCalledWith('Не удалось регистрироваться!');
-//     });
+    // Отправляем форму
+    fireEvent.click(submitButton);
     
-//     alertSpy.mockRestore();
-//   });
+    // Проверяем, что fetchRegister был вызван с правильными параметрами
+    await waitFor(() => {
+      expect(fetchRegister).toHaveBeenCalledWith({
+        fullName: 'Вася Пупкин',
+        email: 'vasya@test.ru',
+        password: '12345'
+      });
+    });
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith('Не удалось регистрироваться!');
+    });
+    
+    alertSpy.mockRestore();
+  });
 
   it('кнопка регистрации неактивна при невалидной форме', () => {
     renderWithProviders(<Registration />);
@@ -149,9 +208,4 @@ describe('Компонент Registration', () => {
     
     expect(submitButton).toBeDisabled();
   });
-
-//   it('отображает аватар', () => {
-//     renderWithProviders(<Registration />);
-//     expect(screen.getByRole('img')).toBeInTheDocument();
-//   });
 }); 

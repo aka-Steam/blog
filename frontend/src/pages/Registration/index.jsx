@@ -22,7 +22,7 @@ export const Registration = () => {
     defaultValues: {
       fullName: 'Вася Пупкин',
       email: 'vasya@test.ru',
-      password: '1234',
+      password: '12345',
     },
     mode: 'onChange',
   });
