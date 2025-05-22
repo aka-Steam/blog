@@ -25,9 +25,9 @@ spec:
             name: backend-secrets  # Секреты из .env
         resources:
           requests:
-            cpu: "100m"  # Минимум 0.1 CPU
+            cpu: "400m"  # Минимум 0.4 CPU
           limits:
-            cpu: "500m"  # Максимум 0.5 CPU
+            cpu: "800m"  # Максимум 0.8 CPU
 ---
 apiVersion: v1
 kind: Service
